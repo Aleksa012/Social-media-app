@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>App 😁</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/script.js" defer></script>
+  </head>
+  <body>
+    <section class="user_interface">
+      <header class="navigation">
+        <h1 class="logo">App</h1>
+        <ul class="nav_list">
+          <li class="nav_item">
+            <a href="/" class="nav_link register">Register</a>
+          </li>
+          <li class="nav_item">
+            <a href="/" class="nav_link login">Log In</a>
+          </li>
+        </ul>
+      </header>
+      <div class="content">
+        <div class="input_field">
+          <form class="form form_register">
+            <h2>Register Here!!!</h2>
+            <label for="register_username">Enter Username</label>
+            <input type="text" id="register_username" />
+            <label for="register_password">Enter password</label>
+            <input
+              placeholder="password..."
+              type="password"
+              id="register_password"
+            />
+            <input
+              placeholder=" confirm password..."
+              type="password"
+              id="confirm_register_password"
+            />
+
+            <button class="btn btn_register">Register! 👌</button>
+          </form>
+          <form class="form form_login hide">
+            <h2>Log In!!!</h2>
+            <label for="login_username">Enter Username</label>
+            <input type="text" id="login_username" />
+            <label for="login_password">Enter password</label>
+            <input type="password" id="login_password" />
+            <button class="btn btn_login">Log In! 👌</button>
+          </form>
+        </div>
+        <div class="side">
+          <img src="/img/undraw_data_input_fxv2.svg" alt="" />
+        </div>
+      </div>
+    </section>
+    <section class="app hide"></section>
+  </body>
+</html>

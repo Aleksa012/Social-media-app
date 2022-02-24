@@ -1,0 +1,282 @@
+/* Base */
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  background-color: #ff63f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #f2f2f2;
+}
+
+/* Typography */
+
+html {
+  font-size: 62.5%;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+h2 {
+  color: #f2f2f2;
+  font-size: 5rem;
+  font-style: italic;
+}
+
+input {
+  outline-color: red;
+}
+
+/* User-Interface */
+
+section {
+  background-color: rgb(135, 135, 233);
+  height: 100vh;
+}
+
+/* Navigation */
+
+.navigation {
+  height: 10rem;
+  background-color: rgb(189, 170, 170);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 2px solid #777;
+}
+
+.logo {
+  font-size: 5rem;
+  font-weight: bolder;
+  font-style: italic;
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-image: linear-gradient(to right, #f2f2f2 10%, #ff63f9 30%);
+  color: transparent;
+}
+
+.nav_list {
+  list-style: none;
+  display: flex;
+}
+
+.nav_item {
+  padding: 0 2rem;
+}
+
+.nav_link {
+  color: #f2f2f2;
+  font-size: 2rem;
+  font-style: italic;
+  text-decoration: none;
+  border-bottom: 2px solid #ff63f9;
+  padding: 1rem 2rem;
+}
+
+/* Content */
+
+.content {
+  background-color: rgb(255, 255, 255);
+  height: 70rem;
+  display: flex;
+}
+
+.content div {
+  height: 100%;
+  width: 50%;
+}
+
+/* Input fields */
+
+.input_field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  background-color: #777;
+  height: 60rem;
+  width: 50rem;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 0 5rem black;
+  border-radius: 30px;
+}
+
+.form label {
+  font-size: 2rem;
+  color: #f2f2f2;
+  font-style: italic;
+}
+
+.form input {
+  height: 4rem;
+  border-radius: 20px 0 50px 0;
+  padding: 0 2rem;
+  font-size: 2rem;
+  font-style: italic;
+  width: 30rem;
+  margin-bottom: 5rem;
+  box-shadow: 1.5rem 2rem 5rem black;
+  border: none;
+}
+
+.form button {
+  transform: translateY(-50px);
+}
+
+.form button:active {
+  transform: translateY(-45px);
+}
+
+#confirm_register_password {
+  transform: translateY(-50px);
+}
+
+.btn {
+  padding: 2rem 4rem;
+  font-size: 2rem;
+  background-color: #777;
+  border: none;
+  border-radius: 500px;
+  box-shadow: 1.5rem 2rem 5rem black;
+  transition: all 0.3s;
+}
+
+/* Side */
+
+.side {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.side img {
+  transform: rotateY(180deg);
+  border-bottom: 2px solid;
+}
+
+/* App */
+
+.app {
+  padding: 15rem 0 0 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.app h1 {
+  font-size: 3rem;
+  color: #f2f2f2;
+  font-style: italic;
+}
+
+.app .icon {
+  margin: 5rem 0;
+  height: 150px;
+  background-color: #f2f2f2;
+  width: 150px;
+  border-radius: 100px;
+}
+
+.posts {
+  width: 40%;
+  height: 60rem;
+  position: relative;
+}
+
+.post_input {
+  height: 20rem;
+}
+
+.post_input input {
+  padding: 2rem 0 13rem 3rem;
+  width: 100%;
+  font-size: 2rem;
+  font-style: italic;
+  border-radius: 5px;
+  border: none;
+}
+.post_text {
+  word-break: break-all;
+  font-size: 1.4rem;
+  color: #f2f2f2;
+}
+.post_btn {
+  position: absolute;
+  top: 120px;
+  right: 30px;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  border-bottom: 2px solid;
+  padding: 1rem 2rem;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.post_btn:hover {
+  color: #f2f2f2;
+  background-color: #777;
+}
+
+.post {
+  height: 20rem;
+  background-color: rgb(21, 214, 150);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+  transition: all 1s ease-out;
+  margin-bottom: 1rem;
+}
+
+.post_options {
+  display: flex;
+  height: 40%;
+  width: 100%;
+  position: relative;
+  align-items: center;
+}
+
+.rate {
+  height: 30px;
+  width: 30px;
+  background-color: #ff63f9;
+  margin: 1rem;
+}
+
+.del_post_btn {
+  padding: 1rem 2rem;
+  position: absolute;
+  right: 1rem;
+}
+
+.loged_posts {
+  height: 40rem;
+  overflow: auto;
+  padding: 1rem 2rem;
+}
+
+/* Content manipulation classes */
+
+.hide {
+  display: none;
+}
+
+.op {
+  opacity: 0;
+  transform: translateX(-400px);
+}
+.black {
+  background-color: black;
+}
