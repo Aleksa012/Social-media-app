@@ -43,6 +43,7 @@ const checkForPosts = function () {
     posted.forEach((post) => {
       postsCont.insertAdjacentHTML('afterbegin', post);
       eventLike();
+      checkForLikes();
     });
   }
 };
@@ -201,8 +202,8 @@ const generatePosts = function () {
           ${postMesage} - ${currentUser.name}
         </p>
         <div class="post_options">
-          <div class="like rate"></div>
-          <div class="dislike rate"></div>
+          <div class="like rate">0</div>
+          <div class="dislike rate">0</div>
           <button class="btn del_post_btn">Delete post</button>
           </div>`;
 
@@ -232,6 +233,22 @@ const deletePost = function () {
   });
 };
 
+const eventLike = function () {
+  document.querySelector('.post').addEventListener('click', function (e) {
+    e.preventDefault();
+    if (e.target.classList.contains('like')) {
+      like(e.target);
+    }
+    if (e.target.classList.contains('dislike')) {
+      dislike(e.target);
+    }
+    localStorage.setItem(
+      `post${e.target.closest('.post').id}`,
+      JSON.stringify(`${e.target.closest('.post').outerHTML} `)
+    );
+  });
+};
+
 // HELPERS
 
 function clearInputFields() {
@@ -243,21 +260,58 @@ function clearInputFields() {
       '';
 }
 
-function eventLike() {
-  document.querySelector('.post').addEventListener('click', function (e) {
-    e.preventDefault();
-    if (e.target.classList.contains('like')) {
-      e.target.classList.toggle('black');
-      e.target
-        .closest('.post')
-        .querySelector('.dislike')
-        .classList.remove('black');
-    } else if (e.target.classList.contains('dislike')) {
-      e.target.classList.toggle('black');
-      e.target
-        .closest('.post')
-        .querySelector('.like')
-        .classList.remove('black');
+const like = function (target) {
+  target.closest('.post').classList.toggle(`likedby${currentUser.name}`);
+  target.closest('.post').classList.remove(`dislikedby${currentUser.name}`);
+  target.classList.toggle('checked');
+  if (
+    target
+      .closest('.post')
+      .querySelector('.dislike')
+      .classList.contains('checked')
+  ) {
+    target.closest('.post').querySelector('.dislike').textContent =
+      +target.closest('.post').querySelector('.dislike').textContent - 1;
+  }
+  target.closest('.post').querySelector('.dislike').classList.remove('checked');
+
+  if (target.classList.contains('checked')) {
+    target.textContent = +target.textContent + 1;
+  } else {
+    target.textContent = +target.textContent - 1;
+  }
+};
+
+const dislike = function (target) {
+  target.closest('.post').classList.toggle(`dislikedby${currentUser.name}`);
+  target.closest('.post').classList.remove(`likedby${currentUser.name}`);
+  target.classList.toggle('checked');
+  if (
+    target.closest('.post').querySelector('.like').classList.contains('checked')
+  ) {
+    target.closest('.post').querySelector('.like').textContent =
+      +target.closest('.post').querySelector('.like').textContent - 1;
+  }
+  target.closest('.post').querySelector('.like').classList.remove('checked');
+
+  if (target.classList.contains('checked')) {
+    target.textContent = +target.textContent + 1;
+  } else {
+    target.textContent = +target.textContent - 1;
+  }
+};
+
+const checkForLikes = function () {
+  [...postsCont.querySelectorAll('.post')].forEach((post) => {
+    if (post.classList.contains(`likedby${currentUser.name}`)) {
+      return;
+    } else {
+      post.querySelector('.like').classList.remove('checked');
+    }
+    if (post.classList.contains(`dislikedby${currentUser.name}`)) {
+      return;
+    } else {
+      post.querySelector('.dislike').classList.remove('checked');
     }
   });
-}
+};

@@ -253,6 +253,12 @@ section {
   width: 30px;
   background-color: #ff63f9;
   margin: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  color: #f2f2f2;
+  transition: all 0.5s;
 }
 
 .del_post_btn {
@@ -277,6 +283,6 @@ section {
   opacity: 0;
   transform: translateX(-400px);
 }
-.black {
-  background-color: black;
+.checked {
+  background-color: blue;
 }
