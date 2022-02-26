@@ -24,7 +24,6 @@ let posts;
 let postBtn;
 let postInput;
 let logOutBtn;
-let posted = [];
 let storedPosts;
 let postsIndex = JSON.parse(localStorage.getItem('postsEver'))
   ? JSON.parse(localStorage.getItem('postsEver'))
@@ -36,16 +35,12 @@ const checkForPosts = function () {
   storedPosts = Object.values(localStorage)
     .map((item) => JSON.parse(item))
     .filter((post) => typeof post !== 'object' && typeof post !== 'number');
-  if (storedPosts.length === 0) {
-    posted = [];
-  } else {
-    posted = storedPosts;
-    posted.forEach((post) => {
-      postsCont.insertAdjacentHTML('afterbegin', post);
-      eventLike();
-      checkForLikes();
-    });
-  }
+
+  storedPosts.forEach((post) => {
+    postsCont.insertAdjacentHTML('afterbegin', post);
+    eventLike();
+    checkForLikes();
+  });
 };
 
 const checkForRegisteredUseres = function () {
@@ -146,6 +141,7 @@ const LogIn = function (userName, userPin) {
   generatePosts();
   deletePost();
   logOut();
+  window.addEventListener('beforeunload', clearLikeDislike);
 };
 
 // LOGING OUT
@@ -153,6 +149,9 @@ const LogIn = function (userName, userPin) {
 const logOut = function () {
   logOutBtn.addEventListener('click', function (e) {
     e.preventDefault();
+    clearLikeDislike();
+    window.removeEventListener('beforeunload', clearLikeDislike);
+
     currentUser = '';
 
     landing.classList.remove('hide');
@@ -242,10 +241,6 @@ const eventLike = function () {
     if (e.target.classList.contains('dislike')) {
       dislike(e.target);
     }
-    localStorage.setItem(
-      `post${e.target.closest('.post').id}`,
-      JSON.stringify(`${e.target.closest('.post').outerHTML} `)
-    );
   });
 };
 
@@ -304,14 +299,22 @@ const dislike = function (target) {
 const checkForLikes = function () {
   [...postsCont.querySelectorAll('.post')].forEach((post) => {
     if (post.classList.contains(`likedby${currentUser.name}`)) {
-      return;
-    } else {
-      post.querySelector('.like').classList.remove('checked');
+      post.querySelector('.like').classList.add('checked');
     }
     if (post.classList.contains(`dislikedby${currentUser.name}`)) {
-      return;
-    } else {
-      post.querySelector('.dislike').classList.remove('checked');
+      post.querySelector('.dislike').classList.add('checked');
     }
+  });
+};
+
+const clearLikeDislike = function () {
+  [...postsCont.querySelectorAll('.post')].forEach((post) => {
+    post.querySelector('.like').classList.remove('checked');
+    post.querySelector('.dislike').classList.remove('checked');
+
+    localStorage.setItem(
+      `post${post.id}`,
+      JSON.stringify(`${post.outerHTML} `)
+    );
   });
 };
