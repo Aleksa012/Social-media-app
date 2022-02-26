@@ -16,9 +16,8 @@
   background-color: #f2f2f2;
 }
 
-i {
-  width: 50px;
-  height: 50px;
+button {
+  cursor: pointer;
 }
 
 /* Typography */
@@ -91,11 +90,7 @@ section {
   background-color: rgb(255, 255, 255);
   height: 70rem;
   display: flex;
-}
-
-.content div {
-  height: 100%;
-  width: 50%;
+  justify-content: space-around;
 }
 
 /* Input fields */
@@ -158,6 +153,27 @@ section {
   transition: all 0.3s;
 }
 
+.avatars {
+  display: flex;
+  height: 2rem;
+  width: 40rem;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.avatars span {
+  font-size: 2rem;
+  color: #f2f2f2;
+}
+
+.avatar {
+  height: 50px;
+  width: 50px;
+  transition: all 0.3s;
+}
+
 /* Side */
 
 .side {
@@ -187,7 +203,7 @@ section {
 }
 
 .app .icon {
-  margin: 5rem 0;
+  margin: 5rem 0 10rem 0;
   height: 150px;
   background-color: #f2f2f2;
   width: 150px;
@@ -198,6 +214,17 @@ section {
   width: 40%;
   height: 60rem;
   position: relative;
+}
+
+.post {
+  height: 20rem;
+  background-color: rgb(21, 214, 150);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+  transition: all 1s ease-out;
+  margin-bottom: 1rem;
 }
 
 .post_input {
@@ -217,6 +244,12 @@ section {
   font-size: 1.4rem;
   color: #f2f2f2;
 }
+.post_img {
+  height: 20px;
+  width: 20px;
+  margin-left: 1rem;
+  position: absolute;
+}
 .post_btn {
   position: absolute;
   top: 120px;
@@ -226,23 +259,11 @@ section {
   border-bottom: 2px solid;
   padding: 1rem 2rem;
   box-shadow: none;
-  cursor: pointer;
 }
 
 .post_btn:hover {
   color: #f2f2f2;
   background-color: #777;
-}
-
-.post {
-  height: 20rem;
-  background-color: rgb(21, 214, 150);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 2rem;
-  transition: all 1s ease-out;
-  margin-bottom: 1rem;
 }
 
 .post_options {
@@ -257,11 +278,7 @@ section {
   height: 30px;
   width: 30px;
   margin: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 2rem;
-  color: #f2f2f2;
+  cursor: pointer;
   transition: all 0.5s;
 }
 

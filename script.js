@@ -8,24 +8,28 @@ const logInUsername = document.querySelector('#login_username');
 const logInPassword = document.querySelector('#login_password');
 const logInBtn = document.querySelector('.btn_login');
 const registerUsername = document.querySelector('#register_username');
+const avatars = document.querySelector('.avatars');
+const registerPassword = document.querySelector('#register_password');
 const confirmRegisterPassword = document.querySelector(
   '#confirm_register_password'
 );
-const registerPassword = document.querySelector('#register_password');
 const registerBtn = document.querySelector('.btn_register');
 
 let users;
+let usersCount = JSON.parse(localStorage.getItem('usersEver'))
+  ? JSON.parse(localStorage.getItem('usersEver'))
+  : 0;
 let registeredUsers = Object.values(localStorage)
   .map((item) => JSON.parse(item))
   .filter((user) => typeof user === 'object');
 let currentUser;
-let postsCont;
 let posts;
 let postBtn;
 let postInput;
 let logOutBtn;
 let storedPosts;
-let postsIndex = JSON.parse(localStorage.getItem('postsEver'))
+let postsContainer;
+let postsCount = JSON.parse(localStorage.getItem('postsEver'))
   ? JSON.parse(localStorage.getItem('postsEver'))
   : 0;
 
@@ -37,7 +41,7 @@ const checkForPosts = function () {
     .filter((post) => typeof post !== 'object' && typeof post !== 'number');
 
   storedPosts.forEach((post) => {
-    postsCont.insertAdjacentHTML('afterbegin', post);
+    postsContainer.insertAdjacentHTML('afterbegin', post);
     eventLike();
     checkForLikes();
   });
@@ -72,16 +76,18 @@ showLogIn.addEventListener('click', function (e) {
 //   USER CREATION
 
 class User {
-  constructor(name, pin) {
+  constructor(name, pin, avatar) {
     this.name = name;
     this.pin = pin;
-    this.id = Math.floor(Math.random() * 100000);
+    this.id = usersCount;
+    this.avatar = avatar;
   }
 }
 
-const createUser = function (userName, userPin) {
+const createUser = function (userName, userPin, userAvatar) {
   const pin = userPin;
   const name = userName;
+  const avatar = userAvatar;
 
   if (users.some((user) => user.name === `${name}`)) {
     alert('Username already exists. Try with a different one! :D');
@@ -90,8 +96,10 @@ const createUser = function (userName, userPin) {
   } else if (pin.length < 6 || pin.length > 10) {
     alert(`Try a ${pin.length < 6 ? 'longer' : 'shorter'} password :D`);
   } else {
-    const newUser = new User(name, pin);
+    const newUser = new User(name, pin, avatar);
+    usersCount++;
 
+    localStorage.setItem('usersEver', `${usersCount}`);
     localStorage.setItem(`user${newUser.id}`, JSON.stringify(newUser));
 
     registeredUsers = Object.values(localStorage).map((user) =>
@@ -103,8 +111,13 @@ const createUser = function (userName, userPin) {
 
 registerBtn.addEventListener('click', function (e) {
   e.preventDefault();
+  const defaultAvatar = './img/ghost-solid.svg';
+  const selectedAvatar = avatars.querySelector('.checked')
+    ? avatars.querySelector('.checked').getAttribute('src')
+    : defaultAvatar;
+  console.log(selectedAvatar);
   if (registerPassword.value !== confirmRegisterPassword.value) return;
-  createUser(registerUsername.value, registerPassword.value);
+  createUser(registerUsername.value, registerPassword.value, selectedAvatar);
   clearInputFields();
 });
 
@@ -166,7 +179,8 @@ const generateData = function () {
   const logedUser = `
    <div class="info">
     <h1>Welcome, ${currentUser.name}</h1>
-    <div class="icon"></div>
+    <div class="icon"> <img src="${currentUser.avatar}" alt="">
+    </div>
     <button class="btn logout">Log Out</button>
    </div>
    <div class="posts">
@@ -184,21 +198,22 @@ const generateData = function () {
   posts = document.querySelector('.posts');
   postBtn = document.querySelector('.post_btn');
   postInput = document.querySelector('.post_mes');
-  postsCont = document.querySelector('.loged_posts');
+  postsContainer = document.querySelector('.loged_posts');
 };
 
 const generatePosts = function () {
   postInput.value = '';
   postBtn.addEventListener('click', function (e) {
-    clearInputFields();
     e.preventDefault();
     const generatePost = function (postMesage) {
       if (postMesage.length > 280 || postMesage.length < 1) return;
-      const post = `<div id="${postsIndex + 1}" class="post ${
+      const post = `<div id="${postsCount + 1}" class="post ${
         currentUser.name
       }">
         <p class="post_text">
-          ${postMesage} - ${currentUser.name}
+          ${postMesage} - ${currentUser.name} <img class="post_img" src="${
+        currentUser.avatar
+      }" alt="">
         </p>
         <div class="post_options">
            <img class="like rate" src="./img/thumbs-up-solid.svg" alt="">
@@ -208,19 +223,20 @@ const generatePosts = function () {
            <button class="btn del_post_btn">Delete post</button>
         </div>`;
 
-      postsCont.insertAdjacentHTML('afterbegin', post);
-      localStorage.setItem(`post${postsIndex + 1}`, JSON.stringify(post));
-      postsIndex++;
-      localStorage.setItem('postsEver', `${postsIndex}`);
+      postsContainer.insertAdjacentHTML('afterbegin', post);
+      localStorage.setItem(`post${postsCount + 1}`, JSON.stringify(post));
+      postsCount++;
+      localStorage.setItem('postsEver', `${postsCount}`);
 
       eventLike();
     };
     generatePost(`${postInput.value}`);
+    postInput.value = '';
   });
 };
 
 const deletePost = function () {
-  postsCont.addEventListener('click', function (e) {
+  postsContainer.addEventListener('click', function (e) {
     e.preventDefault();
     if (e.target.classList.contains('del_post_btn')) {
       if (!e.target.closest('.post').classList.contains(`${currentUser.name}`))
@@ -255,6 +271,9 @@ function clearInputFields() {
     logInPassword.value =
     logInUsername.value =
       '';
+  avatars
+    .querySelectorAll('.avatar')
+    .forEach((avatar) => avatar.classList.remove('checked'));
 }
 
 const like = function (target) {
@@ -301,7 +320,7 @@ const dislike = function (target) {
 };
 
 const checkForLikes = function () {
-  [...postsCont.querySelectorAll('.post')].forEach((post) => {
+  [...postsContainer.querySelectorAll('.post')].forEach((post) => {
     if (post.classList.contains(`likedby${currentUser.name}`)) {
       post.querySelector('.like').classList.add('checked');
     }
@@ -312,7 +331,7 @@ const checkForLikes = function () {
 };
 
 const clearLikeDislike = function () {
-  [...postsCont.querySelectorAll('.post')].forEach((post) => {
+  [...postsContainer.querySelectorAll('.post')].forEach((post) => {
     post.querySelector('.like').classList.remove('checked');
     post.querySelector('.dislike').classList.remove('checked');
 
@@ -323,4 +342,18 @@ const clearLikeDislike = function () {
   });
 };
 
-// localStorage.clear();
+const selectAvatar = function () {
+  avatars.addEventListener('click', function (e) {
+    if (e.target.classList.contains('checked')) {
+      e.target.classList.remove('checked');
+    } else if (e.target.classList.contains('avatar')) {
+      avatars
+        .querySelectorAll('.avatar')
+        .forEach((avatar) => avatar.classList.remove('checked'));
+
+      e.target.classList.add('checked');
+    }
+  });
+};
+
+selectAvatar();
