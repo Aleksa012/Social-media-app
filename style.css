@@ -16,6 +16,11 @@
   background-color: #f2f2f2;
 }
 
+i {
+  width: 50px;
+  height: 50px;
+}
+
 /* Typography */
 
 html {
@@ -251,7 +256,6 @@ section {
 .rate {
   height: 30px;
   width: 30px;
-  background-color: #ff63f9;
   margin: 1rem;
   display: flex;
   justify-content: center;
@@ -259,6 +263,14 @@ section {
   font-size: 2rem;
   color: #f2f2f2;
   transition: all 0.5s;
+}
+
+.count {
+  font-size: 2rem;
+}
+
+.dislike {
+  transform: rotateX(180deg) rotateY(180deg);
 }
 
 .del_post_btn {
@@ -284,5 +296,6 @@ section {
   transform: translateX(-400px);
 }
 .checked {
-  background-color: blue;
+  filter: invert(100%) sepia(0%) saturate(7497%) hue-rotate(307deg)
+    brightness(102%) contrast(104%);
 }

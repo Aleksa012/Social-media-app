@@ -201,10 +201,12 @@ const generatePosts = function () {
           ${postMesage} - ${currentUser.name}
         </p>
         <div class="post_options">
-          <div class="like rate">0</div>
-          <div class="dislike rate">0</div>
-          <button class="btn del_post_btn">Delete post</button>
-          </div>`;
+           <img class="like rate" src="./img/thumbs-up-solid.svg" alt="">
+           <span class="like_count count">0</span>
+           <img class="dislike rate" src="./img/thumbs-up-solid.svg" alt="">
+           <span class="dislike_count count">0</span>
+           <button class="btn del_post_btn">Delete post</button>
+        </div>`;
 
       postsCont.insertAdjacentHTML('afterbegin', post);
       localStorage.setItem(`post${postsIndex + 1}`, JSON.stringify(post));
@@ -256,6 +258,8 @@ function clearInputFields() {
 }
 
 const like = function (target) {
+  const dislikeCount = target.closest('.post').querySelector('.dislike_count');
+  const likeCount = target.closest('.post').querySelector('.like_count');
   target.closest('.post').classList.toggle(`likedby${currentUser.name}`);
   target.closest('.post').classList.remove(`dislikedby${currentUser.name}`);
   target.classList.toggle('checked');
@@ -265,34 +269,34 @@ const like = function (target) {
       .querySelector('.dislike')
       .classList.contains('checked')
   ) {
-    target.closest('.post').querySelector('.dislike').textContent =
-      +target.closest('.post').querySelector('.dislike').textContent - 1;
+    dislikeCount.textContent = +dislikeCount.textContent - 1;
   }
   target.closest('.post').querySelector('.dislike').classList.remove('checked');
 
   if (target.classList.contains('checked')) {
-    target.textContent = +target.textContent + 1;
+    likeCount.textContent = +likeCount.textContent + 1;
   } else {
-    target.textContent = +target.textContent - 1;
+    likeCount.textContent = +likeCount.textContent - 1;
   }
 };
 
 const dislike = function (target) {
+  const dislikeCount = target.closest('.post').querySelector('.dislike_count');
+  const likeCount = target.closest('.post').querySelector('.like_count');
   target.closest('.post').classList.toggle(`dislikedby${currentUser.name}`);
   target.closest('.post').classList.remove(`likedby${currentUser.name}`);
   target.classList.toggle('checked');
   if (
     target.closest('.post').querySelector('.like').classList.contains('checked')
   ) {
-    target.closest('.post').querySelector('.like').textContent =
-      +target.closest('.post').querySelector('.like').textContent - 1;
+    likeCount.textContent = +likeCount.textContent - 1;
   }
   target.closest('.post').querySelector('.like').classList.remove('checked');
 
   if (target.classList.contains('checked')) {
-    target.textContent = +target.textContent + 1;
+    dislikeCount.textContent = +dislikeCount.textContent + 1;
   } else {
-    target.textContent = +target.textContent - 1;
+    dislikeCount.textContent = +dislikeCount.textContent - 1;
   }
 };
 
@@ -318,3 +322,5 @@ const clearLikeDislike = function () {
     );
   });
 };
+
+// localStorage.clear();
