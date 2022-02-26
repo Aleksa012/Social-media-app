@@ -93,6 +93,8 @@ const createUser = function (userName, userPin, userAvatar) {
     alert('Username already exists. Try with a different one! :D');
   } else if (name.split('').includes(' ')) {
     alert('Dont use spaces please! :D');
+  } else if (name.length > 15) {
+    alert('Name is too long! :D');
   } else if (pin.length < 6 || pin.length > 10) {
     alert(`Try a ${pin.length < 6 ? 'longer' : 'shorter'} password :D`);
   } else {

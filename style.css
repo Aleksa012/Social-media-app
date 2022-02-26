@@ -214,6 +214,7 @@ section {
   width: 40%;
   height: 60rem;
   position: relative;
+  transform: translateY(-100px);
 }
 
 .post {
@@ -225,6 +226,7 @@ section {
   padding: 2rem;
   transition: all 1s ease-out;
   margin-bottom: 1rem;
+  position: relative;
 }
 
 .post_input {
@@ -297,7 +299,7 @@ section {
 }
 
 .loged_posts {
-  height: 40rem;
+  height: 70%;
   overflow: auto;
   padding: 1rem 2rem;
 }
@@ -315,4 +317,38 @@ section {
 .checked {
   filter: invert(100%) sepia(0%) saturate(7497%) hue-rotate(307deg)
     brightness(102%) contrast(104%);
+}
+
+@media screen and (max-width: 1080px) {
+  .content {
+    flex-direction: column;
+    height: 150rem;
+  }
+  .form {
+    width: 45rem;
+  }
+  .content img {
+    width: 45rem;
+  }
+  .app {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 120rem;
+  }
+  .info {
+    margin-bottom: 15rem;
+    position: relative;
+  }
+  .info button {
+    position: absolute;
+    top: 20rem;
+    right: -5rem;
+  }
+  .icon {
+    order: -1;
+  }
+  .posts {
+    width: 40rem;
+  }
 }
