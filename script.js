@@ -117,7 +117,6 @@ registerBtn.addEventListener('click', function (e) {
   const selectedAvatar = avatars.querySelector('.checked')
     ? avatars.querySelector('.checked').getAttribute('src')
     : defaultAvatar;
-  console.log(selectedAvatar);
   if (registerPassword.value !== confirmRegisterPassword.value) return;
   createUser(registerUsername.value, registerPassword.value, selectedAvatar);
   clearInputFields();
@@ -243,11 +242,12 @@ const deletePost = function () {
     if (e.target.classList.contains('del_post_btn')) {
       if (!e.target.closest('.post').classList.contains(`${currentUser.name}`))
         return;
+      localStorage.removeItem(`post${e.target.closest('.post').id}`);
       e.target.closest('.post').classList.add('op');
       setTimeout(() => {
-        e.target.closest('.post').classList.add('hide');
+        postsContainer.innerHTML = '';
+        checkForPosts();
       }, 1000);
-      localStorage.removeItem(`post${e.target.closest('.post').id}`);
     }
   });
 };
