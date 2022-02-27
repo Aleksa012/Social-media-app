@@ -29,19 +29,18 @@ html {
 }
 
 h2 {
-  color: #f2f2f2;
   font-size: 5rem;
   font-style: italic;
 }
 
 input {
-  outline-color: red;
+  outline-color: rgb(21, 214, 150);
 }
 
 /* User-Interface */
 
 section {
-  background-color: rgb(135, 135, 233);
+  background-color: #6c63ff;
   height: 100vh;
 }
 
@@ -49,11 +48,11 @@ section {
 
 .navigation {
   height: 10rem;
-  background-color: rgb(189, 170, 170);
+  background-color: #6c63ff;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border-bottom: 2px solid #777;
+  border-bottom: 2px solid #1f16d1;
 }
 
 .logo {
@@ -62,17 +61,15 @@ section {
   font-style: italic;
   background-clip: text;
   -webkit-background-clip: text;
-  background-image: linear-gradient(to right, #f2f2f2 10%, #ff63f9 30%);
-  color: transparent;
+  color: #f2f2f2;
 }
 
 .nav_list {
   list-style: none;
   display: flex;
 }
-
 .nav_item {
-  padding: 0 2rem;
+  padding: 1rem 1rem;
 }
 
 .nav_link {
@@ -80,10 +77,13 @@ section {
   font-size: 2rem;
   font-style: italic;
   text-decoration: none;
-  border-bottom: 2px solid #ff63f9;
   padding: 1rem 2rem;
+  backface-visibility: hidden;
+  transition: 0.3s all;
 }
-
+.nav_item:hover {
+  border-bottom: 2px solid #4639fc;
+}
 /* Content */
 
 .content {
@@ -104,34 +104,42 @@ section {
 .form {
   display: flex;
   flex-direction: column;
-  background-color: #777;
+  background-image: linear-gradient(to top, #6c63ff, #fff);
   height: 60rem;
+  color: black;
   width: 50rem;
   justify-content: space-around;
   align-items: center;
-  box-shadow: 0 0 5rem black;
-  border-radius: 30px;
+  box-shadow: 0 3rem 5rem black;
+  padding: 3rem 0;
+  border: 2px solid #6c63ff;
+  border-top: none;
+  transition: all 0.5s;
 }
 
 .form label {
   font-size: 2rem;
-  color: #f2f2f2;
   font-style: italic;
+  padding: 1rem 0;
 }
 
 .form input {
   height: 4rem;
-  border-radius: 20px 0 50px 0;
   padding: 0 2rem;
   font-size: 2rem;
   font-style: italic;
   width: 30rem;
   margin-bottom: 5rem;
-  box-shadow: 1.5rem 2rem 5rem black;
+  box-shadow: 0 1rem 8rem black;
   border: none;
+  border-bottom: 2px solid;
+  outline: none;
+  transition: all 0.3s;
+}
+.form input:focus {
+  transform: scaleX(1.1);
 }
 .form p {
-  color: #fd0101;
   font-size: 2.5rem;
   text-align: center;
   transform: translateY(-60px);
@@ -146,16 +154,18 @@ section {
 }
 
 #confirm_register_password {
-  transform: translateY(-50px);
+  transform: translateY(-30px);
+}
+#confirm_register_password:focus {
+  transform: translateY(-30px) scaleX(1.1);
 }
 
 .btn {
   padding: 2rem 4rem;
   font-size: 2rem;
-  background-color: #777;
+  background-color: #3127fa;
   border: none;
-  border-radius: 500px;
-  box-shadow: 1.5rem 2rem 5rem black;
+  box-shadow: 0 2rem 5rem black;
   transition: all 0.3s;
 }
 
@@ -171,7 +181,6 @@ section {
 
 .avatars span {
   font-size: 2rem;
-  color: #f2f2f2;
 }
 
 .avatar {
@@ -188,9 +197,9 @@ section {
   align-items: center;
 }
 
-.side img {
-  transform: rotateY(180deg);
+.landing_img {
   border-bottom: 2px solid;
+  width: 70rem;
 }
 
 /* App */
@@ -305,7 +314,7 @@ section {
 }
 
 .loged_posts {
-  height: 70%;
+  height: 75%;
   overflow: auto;
   padding: 1rem 2rem;
 }
@@ -316,7 +325,7 @@ section {
   display: none;
 }
 
-.op {
+.post_deletion {
   opacity: 0;
   transform: translateX(-400px);
 }
@@ -325,7 +334,35 @@ section {
     brightness(102%) contrast(104%);
 }
 
+.slide {
+  animation: slideIn 0.8s linear;
+}
+
+/* Animations */
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-1000px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes showUp {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/* RESPONSIVE */
+
 @media screen and (max-width: 1080px) {
+  .logo {
+    font-size: 3rem;
+  }
   .content {
     flex-direction: column;
     height: 150rem;

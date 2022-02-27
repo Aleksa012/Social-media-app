@@ -1,4 +1,5 @@
 const landing = document.querySelector('.user_interface');
+const landingImg = document.querySelector('.landing_img');
 const logedIn = document.querySelector('.app');
 const showLogIn = document.querySelector('.login');
 const showRegister = document.querySelector('.register');
@@ -40,7 +41,9 @@ const checkForPosts = function () {
   storedPosts = Object.values(localStorage)
     .map((item) => JSON.parse(item))
     .filter((post) => typeof post !== 'object' && typeof post !== 'number');
+};
 
+const showPosts = function () {
   storedPosts.forEach((post) => {
     postsContainer.insertAdjacentHTML('afterbegin', post);
     eventLike();
@@ -66,6 +69,7 @@ showRegister.addEventListener('click', function (e) {
   formLogIn.classList.add('hide');
   clearInputFields();
   inputFeedback.textContent = '';
+  landingImg.setAttribute('src', './img/RegisterImg.svg');
 });
 
 showLogIn.addEventListener('click', function (e) {
@@ -74,6 +78,7 @@ showLogIn.addEventListener('click', function (e) {
   formRegister.classList.add('hide');
   clearInputFields();
   inputFeedback.textContent = '';
+  landingImg.setAttribute('src', './img/LogIn.svg');
 });
 
 //   USER CREATION
@@ -103,6 +108,8 @@ const createUser = function (userName, userPin, userAvatar) {
       `Try a ${pin.length < 6 ? 'longer' : 'shorter'} password!`,
       'red'
     );
+  } else if (registerPassword.value !== confirmRegisterPassword.value) {
+    inputFeedbackInfo('Passwords dont match!', 'red');
   } else {
     inputFeedbackInfo('Account created!', 'green');
     const newUser = new User(name, pin, avatar);
@@ -118,13 +125,31 @@ const createUser = function (userName, userPin, userAvatar) {
   }
 };
 
+const selectAvatar = function () {
+  avatars.addEventListener('click', function (e) {
+    if (e.target.classList.contains('checked')) {
+      e.target.classList.remove('checked');
+      e.target.style.transform = 'scale(1)';
+    } else if (e.target.classList.contains('avatar')) {
+      avatars.querySelectorAll('.avatar').forEach((avatar) => {
+        avatar.classList.remove('checked');
+        avatar.style.transform = 'scale(1)';
+      });
+
+      e.target.classList.add('checked');
+      e.target.style.transform = 'scale(1.3)';
+    }
+  });
+};
+
+selectAvatar();
+
 registerBtn.addEventListener('click', function (e) {
   e.preventDefault();
   const defaultAvatar = './img/ghost-solid.svg';
   const selectedAvatar = avatars.querySelector('.checked')
     ? avatars.querySelector('.checked').getAttribute('src')
     : defaultAvatar;
-  if (registerPassword.value !== confirmRegisterPassword.value) return;
   createUser(registerUsername.value, registerPassword.value, selectedAvatar);
   clearInputFields();
 });
@@ -159,6 +184,7 @@ const LogIn = function (userName, userPin) {
 
   generateData();
   checkForPosts();
+  showPosts();
   generatePosts();
   deletePost();
   logOut();
@@ -250,14 +276,15 @@ const deletePost = function () {
       if (!e.target.closest('.post').classList.contains(`${currentUser.name}`))
         return;
       localStorage.removeItem(`post${e.target.closest('.post').id}`);
-      e.target.closest('.post').classList.add('op');
+      e.target.closest('.post').classList.add('post_deletion');
       setTimeout(() => {
-        postsContainer.innerHTML = '';
-        checkForPosts();
+        e.target.closest('.post').classList.add('hide');
       }, 1000);
     }
   });
 };
+
+// LIKING FUNCTIONALITY
 
 const eventLike = function () {
   document.querySelector('.post').addEventListener('click', function (e) {
@@ -270,20 +297,6 @@ const eventLike = function () {
     }
   });
 };
-
-// HELPERS
-
-function clearInputFields() {
-  registerUsername.value =
-    registerPassword.value =
-    confirmRegisterPassword.value =
-    logInPassword.value =
-    logInUsername.value =
-      '';
-  avatars
-    .querySelectorAll('.avatar')
-    .forEach((avatar) => avatar.classList.remove('checked'));
-}
 
 const like = function (target) {
   const dislikeCount = target.closest('.post').querySelector('.dislike_count');
@@ -351,22 +364,20 @@ const clearLikeDislike = function () {
   });
 };
 
-const selectAvatar = function () {
-  avatars.addEventListener('click', function (e) {
-    if (e.target.classList.contains('checked')) {
-      e.target.classList.remove('checked');
-    } else if (e.target.classList.contains('avatar')) {
-      avatars
-        .querySelectorAll('.avatar')
-        .forEach((avatar) => avatar.classList.remove('checked'));
+// HELPERS
 
-      e.target.classList.add('checked');
-    }
+function clearInputFields() {
+  registerUsername.value =
+    registerPassword.value =
+    confirmRegisterPassword.value =
+    logInPassword.value =
+    logInUsername.value =
+      '';
+  avatars.querySelectorAll('.avatar').forEach((avatar) => {
+    avatar.classList.remove('checked');
+    avatar.style.transform = 'scale(1)';
   });
-};
-
-selectAvatar();
-
+}
 const inputFeedbackInfo = function (message, color) {
   inputFeedback.textContent = `${message}`;
   inputFeedback.style.color = `${color}`;
