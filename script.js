@@ -13,6 +13,7 @@ const registerPassword = document.querySelector('#register_password');
 const confirmRegisterPassword = document.querySelector(
   '#confirm_register_password'
 );
+const inputFeedback = document.querySelector('.feedback_input');
 const registerBtn = document.querySelector('.btn_register');
 
 let users;
@@ -64,6 +65,7 @@ showRegister.addEventListener('click', function (e) {
   formRegister.classList.remove('hide');
   formLogIn.classList.add('hide');
   clearInputFields();
+  inputFeedback.textContent = '';
 });
 
 showLogIn.addEventListener('click', function (e) {
@@ -71,6 +73,7 @@ showLogIn.addEventListener('click', function (e) {
   formLogIn.classList.remove('hide');
   formRegister.classList.add('hide');
   clearInputFields();
+  inputFeedback.textContent = '';
 });
 
 //   USER CREATION
@@ -90,14 +93,18 @@ const createUser = function (userName, userPin, userAvatar) {
   const avatar = userAvatar;
 
   if (users.some((user) => user.name === `${name}`)) {
-    alert('Username already exists. Try with a different one! :D');
+    inputFeedbackInfo('Username Exists!', 'red');
   } else if (name.split('').includes(' ')) {
-    alert('Dont use spaces please! :D');
+    inputFeedbackInfo('Dont use spaces please!', 'red');
   } else if (name.length > 15) {
-    alert('Name is too long! :D');
+    inputFeedbackInfo('Name is too long!', 'red');
   } else if (pin.length < 6 || pin.length > 10) {
-    alert(`Try a ${pin.length < 6 ? 'longer' : 'shorter'} password :D`);
+    inputFeedbackInfo(
+      `Try a ${pin.length < 6 ? 'longer' : 'shorter'} password!`,
+      'red'
+    );
   } else {
+    inputFeedbackInfo('Account created!', 'green');
     const newUser = new User(name, pin, avatar);
     usersCount++;
 
@@ -359,3 +366,8 @@ const selectAvatar = function () {
 };
 
 selectAvatar();
+
+const inputFeedbackInfo = function (message, color) {
+  inputFeedback.textContent = `${message}`;
+  inputFeedback.style.color = `${color}`;
+};
