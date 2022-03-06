@@ -15,6 +15,7 @@ const confirmRegisterPassword = document.querySelector(
   '#confirm_register_password'
 );
 const inputFeedback = document.querySelector('.feedback_input');
+const loginFeedback = document.querySelector('.feedback_login');
 const registerBtn = document.querySelector('.btn_register');
 
 let users;
@@ -69,6 +70,7 @@ showRegister.addEventListener('click', function (e) {
   formLogIn.classList.add('hide');
   clearInputFields();
   inputFeedback.textContent = '';
+  loginFeedback.textContent = '';
   landingImg.setAttribute('src', './img/RegisterImg.svg');
 });
 
@@ -78,6 +80,7 @@ showLogIn.addEventListener('click', function (e) {
   formRegister.classList.add('hide');
   clearInputFields();
   inputFeedback.textContent = '';
+  loginFeedback.textContent = '';
   landingImg.setAttribute('src', './img/LogIn.svg');
 });
 
@@ -98,20 +101,21 @@ const createUser = function (userName, userPin, userAvatar) {
   const avatar = userAvatar;
 
   if (users.some((user) => user.name === `${name}`)) {
-    inputFeedbackInfo('Username Exists!', 'red');
+    feedbackInfo('input', 'Username Exists!', 'red');
   } else if (name.split('').includes(' ')) {
-    inputFeedbackInfo('Dont use spaces please!', 'red');
+    feedbackInfo('input', 'Dont use spaces please!', 'red');
   } else if (name.length > 15) {
-    inputFeedbackInfo('Name is too long!', 'red');
+    feedbackInfo('input', 'Name is too long!', 'red');
   } else if (pin.length < 6 || pin.length > 10) {
-    inputFeedbackInfo(
+    feedbackInfo(
+      'input',
       `Try a ${pin.length < 6 ? 'longer' : 'shorter'} password!`,
       'red'
     );
   } else if (registerPassword.value !== confirmRegisterPassword.value) {
-    inputFeedbackInfo('Passwords dont match!', 'red');
+    feedbackInfo('input', 'Passwords dont match!', 'red');
   } else {
-    inputFeedbackInfo('Account created!', 'green');
+    feedbackInfo('input', 'Account created!', 'green');
     const newUser = new User(name, pin, avatar);
     usersCount++;
 
@@ -166,18 +170,19 @@ const LogIn = function (userName, userPin) {
   const name = userName;
 
   if (!users.some((user) => user.name === `${name}`)) {
-    alert('USER DOESNT EXIST');
+    feedbackInfo('login', "User dosn't exist!", 'red');
     return;
   }
 
   currentUser = users.find((user) => user.name === `${name}`);
 
   if (currentUser.pin != pin) {
-    alert('WRONG PASSWORD');
+    feedbackInfo('login', 'Wrong password!', 'red');
     return;
   }
 
   clearInputFields();
+  loginFeedback.textContent = '';
 
   landing.classList.add('hide');
   logedIn.classList.remove('hide');
@@ -378,7 +383,12 @@ function clearInputFields() {
     avatar.style.transform = 'scale(1)';
   });
 }
-const inputFeedbackInfo = function (message, color) {
-  inputFeedback.textContent = `${message}`;
-  inputFeedback.style.color = `${color}`;
+const feedbackInfo = function (target, message, color) {
+  if (target === 'input') {
+    inputFeedback.textContent = `${message}`;
+    inputFeedback.style.color = `${color}`;
+  } else {
+    loginFeedback.textContent = `${message}`;
+    loginFeedback.style.color = `${color}`;
+  }
 };
